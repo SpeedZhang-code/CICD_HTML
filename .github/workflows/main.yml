@@ -12,9 +12,11 @@ jobs:
     steps:
   # 1. 建立階段 (Build)  
       - uses: actions/checkout@v4
-        run: |
-          npm install
-          npm run build
+
+      - name: 安裝相依套件
+        run: npm install
+      - name: 執行打包
+        run: npm run build
 
   # --- 新增：將打包後的檔案存起來 ---
       - name: 上傳打包產物
