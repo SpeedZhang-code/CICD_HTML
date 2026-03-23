@@ -2,7 +2,7 @@ name: CI/CD HTML test
 
 on:
   push:
-    branches: [ main ]  # 當程式碼推送到 main 分支時觸發
+    branches: [ main ]  
 
 jobs:
 
@@ -25,10 +25,22 @@ jobs:
           name: my-build-files
           path: dist/  # 這裡請確認你 npm run build 產出的資料夾名稱
 
-  # 2. 測試階段 (Test)
+
+ # 2. 測試階段 (Test)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        # --- 新增：把剛才打包好的檔案載回來 ---
+      - name: 下載打包產物
+        uses: actions/download-artifact@v4
+        with:
+          name: my-build-files
+          path: dist/
+
       - name: 執行自動化測試
         run: npm test   # 執行 test.js，若失敗則流程終止
-
+      
 
 
   # CD
