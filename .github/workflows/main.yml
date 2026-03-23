@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 安裝相依套件，和打包
-        run: |
-          npm install      
-          npm run build
+      - name: 安裝相依套件
+        run: npm install
+      - name: 執行打包
+        run: npm run build
+
   # 2. 測試階段 (Test)
   test:
     needs: build        # 確保 Build 成功後才執行
