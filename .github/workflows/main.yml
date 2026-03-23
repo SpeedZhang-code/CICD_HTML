@@ -20,7 +20,7 @@ jobs:
           cache: 'npm' # 自動幫你快取 node_modules，不用自己打包 node_modules
       
       - name: 安裝相依套件
-        run: npm install
+        run: npm ci
         
       - name: 執行打包
         run: npm run build
