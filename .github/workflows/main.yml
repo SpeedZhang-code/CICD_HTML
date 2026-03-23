@@ -36,4 +36,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # 部署到這個分支
-          folder: .         # 純 HTML 專案直接部署根目錄
+          folder: src         # 純 HTML 專案直接部署根目錄

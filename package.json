@@ -2,7 +2,8 @@
   "name": "cicd-demo",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest" 
+    "test": "jest",
+    "build": "echo 'No build step needed yet'" 
   },
   "devDependencies": {
     "jest": "^29.0.0"
