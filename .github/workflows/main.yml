@@ -12,27 +12,44 @@ jobs:
     steps:
   # 1. 建立階段 (Build)  
       - uses: actions/checkout@v4
-      - name: 安裝相依套件
-        run: npm install
-      - name: 執行打包
-        run: npm run build
+        run: |
+          npm install
+          npm run build
+
+  # --- 新增：將打包後的檔案存起來 ---
+      - name: 上傳打包產物
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-build-files
+          path: dist/  # 這裡請確認你 npm run build 產出的資料夾名稱
 
   # 2. 測試階段 (Test)
       - name: 執行自動化測試
         run: npm test   # 執行 test.js，若失敗則流程終止
 
 
+
   # CD
   # 3. 部署階段 (Deploy)
   deploy:
     needs: build_and_test         # 構建和測試通過才准許部署
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: write   # 給予推送到 gh-pages 分支的權限
     steps:
       - uses: actions/checkout@v4
+
+    # --- 新增：把剛才打包好的檔案載回來 ---
+      - name: 下載打包產物
+        uses: actions/download-artifact@v4
+        with:
+          name: my-build-files
+          path: dist/
+
+
       - name: 部署到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # 部署到這個分支
-          folder: dist         # 純 HTML 專案直接部署根目錄
+          folder: build         # 純 HTML 專案直接部署根目錄
+
