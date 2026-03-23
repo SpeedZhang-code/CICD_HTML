@@ -7,7 +7,7 @@ on:
 jobs:
 
   # CI
-  build_and_test:
+  build:
     runs-on: ubuntu-latest
     steps:
   # 1. 建立階段 (Build)  
@@ -47,7 +47,7 @@ jobs:
   # CD
   # 3. 部署階段 (Deploy)
   deploy:
-    needs: build_and_test         # 構建和測試通過才准許部署
+    needs: test         # 構建和測試通過才准許部署
     runs-on: ubuntu-latest
     permissions:
       contents: write   # 給予推送到 gh-pages 分支的權限
