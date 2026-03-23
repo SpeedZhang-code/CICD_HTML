@@ -35,7 +35,7 @@ jobs:
   # 3. 部署階段 (Deploy)
   deploy:
     needs: build_and_test         # 構建和測試通過才准許部署
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: write   # 給予推送到 gh-pages 分支的權限
     steps:
