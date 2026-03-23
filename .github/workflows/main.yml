@@ -28,7 +28,7 @@ jobs:
 
  # 2. 測試階段 (Test)
   test:
-    needs: build_and_test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
