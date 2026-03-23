@@ -5,10 +5,13 @@ on:
     branches: [ main ]  # 當程式碼推送到 main 分支時觸發
 
 jobs:
-  # 1. 建立階段 (Build)
-  build:
+
+  # CI
+
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
+  # 1. 建立階段 (Build)  
       - uses: actions/checkout@v4
       - name: 安裝相依套件
         run: npm install
@@ -16,17 +19,14 @@ jobs:
         run: npm run build
 
   # 2. 測試階段 (Test)
-  test:
-    needs: build        # 確保 Build 成功後才執行
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - name: 執行自動化測試
         run: npm test   # 執行 test.js，若失敗則流程終止
 
+
+  # CD
   # 3. 部署階段 (Deploy)
   deploy:
-    needs: test         # 測試通過才准許部署
+    needs: build_and_test         # 構建和測試通過才准許部署
     runs-on: ubuntu-latest
     permissions:
       contents: write   # 給予推送到 gh-pages 分支的權限
