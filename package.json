@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
-    "build": "mkdir -p dist && cp src/*.html dist/ && npx html-minifier --input-dir src --output-dir dist --collapse-whitespace"
+    "build": "mkdir -p dist && cp src/*.html dist/ && html-minifier --input-dir src --output-dir dist --collapse-whitespace"
   },
   "devDependencies": {
     "jest": "^29.0.0",
