@@ -13,15 +13,18 @@ jobs:
   # 1. 建立階段 (Build)  
       - uses: actions/checkout@v4
 
-      - name: 設定 Node.js
+      - name: 設定 Node.js 並啟用快取
         uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' # 自動快取 node_modules，下次跑會超快
 
       - name: 安裝相依套件
-        run: npm install
+        run: npm ci # ci 比 install 更適合自動化環境，更穩定
         
       - name: 執行打包
         run: npm run build
-
+  
   # --- 新增：將打包後的檔案存起來 ---
       - name: 上傳打包產物
         uses: actions/upload-artifact@v4
@@ -31,23 +34,24 @@ jobs:
             dist/
             node_modules/
 
- # 2. 測試階段 (Test)
+  # 2. 測試階段 (Test)
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        # --- 新增：把剛才打包好的檔案載回來 ---
-      - name: 下載打包產物
-        uses: actions/download-artifact@v4
+
+      - name: 設定 Node.js 並啟用快取
+        uses: actions/setup-node@v4
         with:
-          name: my-build-files
-          path: |
-            dist/
-            node_modules/
+          node-version: '20'
+          cache: 'npm' # 這裡會直接從快取抓，不需要重新下載
+
+      - name: 安裝相依套件
+        run: npm ci # 因為有快取，這步通常只需幾秒鐘
 
       - name: 執行自動化測試
-        run: npm test   # 執行 test.js，若失敗則流程終止
+        run: npm test
       
 
 
@@ -66,10 +70,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: my-build-files
-          path: |
-            dist/
-            node_modules/
-
+          path: dist/
 
       - name: 部署到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
