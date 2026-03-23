@@ -5,7 +5,7 @@ on:
     branches: [ main ]  
 
 jobs:
-  # 1. 將 Build 與 Test 合併為一個 Job
+  # 1. 持續部署
   build-and-test:
     runs-on: ubuntu-latest
     steps:
@@ -17,17 +17,18 @@ jobs:
       - name: 執行打包
         run: npm run build
 
-      # 直接在這裡跑測試，就不會出現 "jest: not found"
-      - name: 執行自動化測試
-        run: npm test   
-  
       - name: 上傳打包產物
         uses: actions/upload-artifact@v4
         with:
           name: my-build-files
           path: dist/
 
-  # 2. 部署階段 (保持不變，但 needs 改為指向合併後的 job)
+  # 測試  
+      - name: 執行自動化測試
+        run: npm test   
+  
+
+  # 2. 部署階段 
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
