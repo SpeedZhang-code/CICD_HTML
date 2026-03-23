@@ -1,0 +1,37 @@
+name: CI/CD HTML test
+
+on:
+  push:
+    branches: [ main ]  # 當程式碼推送到 main 分支時觸發
+
+jobs:
+  # 1. 建立階段 (Build)
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安裝相依套件
+        run: npm install    #相依
+        run: npm run build  #打包
+  # 2. 測試階段 (Test)
+  test:
+    needs: build        # 確保 Build 成功後才執行
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 執行自動化測試
+        run: npm test   # 執行 test.js，若失敗則流程終止
+
+  # 3. 部署階段 (Deploy)
+  deploy:
+    needs: test         # 測試通過才准許部署
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 給予推送到 gh-pages 分支的權限
+    steps:
+      - uses: actions/checkout@v4
+      - name: 部署到 GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # 部署到這個分支
+          folder: .         # 純 HTML 專案直接部署根目錄
