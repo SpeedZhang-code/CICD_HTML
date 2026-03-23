@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
-    "build": "echo 'No build step needed yet'" 
+    "build": "mkdir -p dist && cp src/*.html dist/ && html-minifier --input-dir src --output-dir dist --collapse-whitespace"
   },
   "devDependencies": {
-    "jest": "^29.0.0"
+    "jest": "^29.0.0",
+    "html-minifier": "^4.0.0"
   }
 }
