@@ -2,6 +2,7 @@
   "name": "cicd-demo",
   "version": "1.0.0",
   "scripts": {
+    "lint": "eslint .",
     "test": "jest",
     "build": "mkdir -p dist && cp src/*.html dist/ && html-minifier --input-dir src --output-dir dist --collapse-whitespace"
   },
