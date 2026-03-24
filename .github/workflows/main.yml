@@ -5,12 +5,12 @@ on:
     branches: [ main ]  
 
 jobs:
-  # 1. 持續部署
-  build-and-test:
+  # 1. 
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+  #build構建
       - name: 安裝相依套件
         run: npm install
         
@@ -23,14 +23,24 @@ jobs:
           name: my-build-files
           path: dist/
 
-  # 測試  
+# Test測試 
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 安裝相依套件
+        run: npm install
+        
+      - name: 下載打包產物
+        uses: actions/download-artifact@v4
+  
       - name: 執行自動化測試
         run: npm test   
-  
+
 
   # 2. 部署階段 
   deploy:
-    needs: build-and-test
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: write
