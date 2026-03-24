@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 檢出程式碼
-      - uses: actions/checkout@v4
-        
+        uses: actions/checkout@v4
+
         # with:
         #   node-version: '20'
         #   cache: 'npm' # 👈 這行會自動幫你快取相依套件
