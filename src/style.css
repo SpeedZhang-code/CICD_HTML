@@ -8,7 +8,10 @@ body {
     height: 100vh;
     background-color: #0f172a; /* 深藍底色 */
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* 確保內容由上而下排列 */
 }
+
 
 #title {
     font-size: 5rem;
