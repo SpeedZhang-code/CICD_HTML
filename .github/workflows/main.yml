@@ -5,19 +5,27 @@ on:
     branches: [ main ]  
 
 jobs:
-  # build構建
+# build構建
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: 檢出程式碼
       - uses: actions/checkout@v4
+        
+        # with:
+        #   node-version: '20'
+        #   cache: 'npm' # 👈 這行會自動幫你快取相依套件
 
-      - name: 安裝相依套件
+      - name: 安裝相依套件 (Dependency Management)
         run: npm install
         
-      - name: 執行打包
+      - name: 檢查程式碼語法和邏輯(Analysis)
+        run: npm run lint
+
+      - name: 編譯與建置 (Compile & build)
         run: npm run build
 
-      - name: 上傳打包產物
+      - name: 上傳打包產物  (Packaging)
         uses: actions/upload-artifact@v4
         with:
           name: my-build-files
@@ -37,7 +45,7 @@ jobs:
         with:
           name: my-build-files
           path: dist/
-          
+
       - name: 執行自動化測試
         run: npm test   
 
