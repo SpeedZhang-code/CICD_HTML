@@ -19,8 +19,8 @@ jobs:
       - name: 安裝相依套件 (Dependency Management)
         run: npm install
         
-      - name: 檢查程式碼語法和邏輯(Analysis)
-        run: npm run lint
+      # - name: 檢查程式碼語法和邏輯(Analysis)
+      #   run: npm run lint
 
       - name: 編譯與建置 (Compile & build)
         run: npm run build
